@@ -73,7 +73,7 @@
     </style>
 </head>
 <body>
-    <h1>Переводчик на АРовский</h1>
+    <h1>Переводчик на АРовский 1.5</h1>
     <textarea id="inputText" placeholder="Введите текст..."></textarea>
     <div>
         <button onclick="encrypt()">Зашифровать</button>
@@ -101,10 +101,10 @@ const generateUniqueCombinations = (words, length) => {
     return results;
 };
 
-const keyWords = ["A", "А", "Ӓ", "Α"];
+const keyWords = ["A", "А", "Ӓ", "Α", "Ɐ", "@"];
 const charToCode = {};
 const codeToChar = {};
-const combinations = generateUniqueCombinations(keyWords, 4); 
+const combinations = generateUniqueCombinations(keyWords, 2); 
 const addLanguageSupport = (start, end) => {
     for (let i = start; i <= end; i++) {
         const char = String.fromCharCode(i);
@@ -124,18 +124,18 @@ window.codeToChar = codeToChar;
 function encrypt() {
     const input = document.getElementById("inputText").value;
     const encrypted = input
-        .split("") 
+        .split("")
         .map(char => charToCode[char] || "")
-        .join(""); 
+        .join("");
     document.getElementById("outputText").textContent = encrypted;
 }
 
 function decrypt() {
     const input = document.getElementById("inputText").value.trim();
     const decrypted = input
-        .match(/.{4}/g) 
+        .match(/.{2}/g)
         .map(code => codeToChar[code] || "?") 
-        .join(""); 
+        .join("");
     document.getElementById("outputText").textContent = decrypted;
 }
 
