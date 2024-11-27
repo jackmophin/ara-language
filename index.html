@@ -73,7 +73,7 @@
     </style>
 </head>
 <body>
-    <h1>Переводчик на АРовский 1.5</h1>
+    <h1>Переводчик на АРовский 1.1</h1>
     <textarea id="inputText" placeholder="Введите текст..."></textarea>
     <div>
         <button onclick="encrypt()">Зашифровать</button>
@@ -104,7 +104,7 @@ const generateUniqueCombinations = (words, length) => {
 const keyWords = ["A", "А", "Ӓ", "Α", "Ɐ", "@"];
 const charToCode = {};
 const codeToChar = {};
-const combinations = generateUniqueCombinations(keyWords, 2); 
+const combinations = generateUniqueCombinations(keyWords, 3); 
 const addLanguageSupport = (start, end) => {
     for (let i = start; i <= end; i++) {
         const char = String.fromCharCode(i);
