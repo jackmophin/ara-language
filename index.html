@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>𝘼</title>
+    <link rel="icon" href="https://jackmophin.github.io/local/unsorted/ara.png" type="image/png">
+    <style>
+    * {
+        transition: 0.3s ease-out;
+        border-radius: 5px;
+    }
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            color: white;
+            background-color: #000d02;
+        }
+        textarea {
+            width: 80%;
+            height: 100px;
+            margin: 10px 0;
+            color: white;
+            background-color: black;
+            padding: 10px;
+            font-size: 16px;
+            outline: 2px solid transparent;
+            border: 1px solid white;
+        }
+        
+        textarea:focus {
+        outline: 2px solid #3e8dcf;
+        border: 1px solid #10161a;
+}
+        button {
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+             color: white;
+            background-color: black;
+        }
+        button:hover {
+            background-color: #d0d0d0;
+            color: black;
+        }
+        .output {
+            margin-top: 20px;
+            padding: 10px;
+            background: #ffffff;
+            width: 80%;
+            min-height: 50px;
+            border: 1px solid #ccc;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: white;
+            background-color: black;
+        }
+        a {
+            color: royalblue;
+            text-decoration: none;
+            opacity: 0.4;
+        }
+        
+        a:hover {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <h1>Переводчик на АРовский</h1>
+    <textarea id="inputText" placeholder="Введите текст..."></textarea>
+    <div>
+        <button onclick="encrypt()">Зашифровать</button>
+        <button onclick="decrypt()">Расшифровать</button>
+        <button onclick="copyToClipboard()">Копировать</button>
+    </div>
+    <div class="output" id="outputText"><span style='opacity: 0.3'>Тут будет результат.</span></div>
+    <footer style='margin: 25px'><a href="#" onclick="window.open('https://t.me/imancat');">imancat</a></footer>
+
+    <script>
+const generateUniqueCombinations = (words, length) => {
+    const results = [];
+
+    const backtrack = (current) => {
+        if (current.length === length) {
+            results.push(current.join(""));
+            return;
+        }
+        for (const word of words) {
+            backtrack([...current, word]);
+        }
+    };
+
+    backtrack([]);
+    return results;
+};
+
+const keyWords = ["A", "А", "Ӓ", "Α"];
+const charToCode = {};
+const codeToChar = {};
+const combinations = generateUniqueCombinations(keyWords, 4); 
+const addLanguageSupport = (start, end) => {
+    for (let i = start; i <= end; i++) {
+        const char = String.fromCharCode(i);
+        const code = combinations.shift(); 
+        if (!code) break;
+        charToCode[char] = code;
+        codeToChar[code] = char;
+    }
+};
+
+addLanguageSupport(32, 126); 
+addLanguageSupport(1040, 1103);
+addLanguageSupport(1025, 1105);
+window.charToCode = charToCode;
+window.codeToChar = codeToChar;
+
+function encrypt() {
+    const input = document.getElementById("inputText").value;
+    const encrypted = input
+        .split("") 
+        .map(char => charToCode[char] || "")
+        .join(""); 
+    document.getElementById("outputText").textContent = encrypted;
+}
+
+function decrypt() {
+    const input = document.getElementById("inputText").value.trim();
+    const decrypted = input
+        .match(/.{4}/g) 
+        .map(code => codeToChar[code] || "?") 
+        .join(""); 
+    document.getElementById("outputText").textContent = decrypted;
+}
+
+function copyToClipboard() {
+    const outputText = document.getElementById("outputText");
+    const range = document.createRange();
+    range.selectNode(outputText);
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(range);
+    try {
+        document.execCommand('copy');
+    } catch (err) {
+        alert("Ошибка при копировании текста!");
+    }
+    window.getSelection().removeAllRanges();
+}
+    </script>
+</body>
+</html>
