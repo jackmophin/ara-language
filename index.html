@@ -73,7 +73,7 @@
     </style>
 </head>
 <body>
-    <h1>Переводчик на АРовский 1.1</h1>
+    <h1>Переводчик на АРовский</h1>
     <textarea id="inputText" placeholder="Введите текст..."></textarea>
     <div>
         <button onclick="encrypt()">Зашифровать</button>
@@ -133,7 +133,7 @@ function encrypt() {
 function decrypt() {
     const input = document.getElementById("inputText").value.trim();
     const decrypted = input
-        .match(/.{2}/g)
+        .match(/.{3}/g)
         .map(code => codeToChar[code] || "?") 
         .join("");
     document.getElementById("outputText").textContent = decrypted;
